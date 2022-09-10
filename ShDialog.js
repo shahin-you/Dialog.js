@@ -16,6 +16,4 @@ class ShDialog{
     static showMessage(title, message, exSettings){
         let currentSettings = exSettings || {dialogType:ShDialogTypes.info};
     }
-
-    get id(){ return this.#dialogID; }
 }
