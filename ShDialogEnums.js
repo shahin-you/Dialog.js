@@ -17,3 +17,15 @@ export class ShDialogTypes{
         return `ShDialogType:${this.value}`;
     }
 }
+
+export class ShDialogToolbarButtons{
+    static close = new ShDialogToolbarButtons('close');
+
+    constructor(enumValue){
+        this.value = enumValue;
+    }
+
+    get value(){
+        return this.value; 
+    }
+}
