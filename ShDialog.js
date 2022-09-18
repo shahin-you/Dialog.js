@@ -20,14 +20,23 @@ class ShDialog{
         let currentSettings = exSettings || 
                             {
                                 dialogType: ShDialogTypes.info, 
-                                dialogWidth: "50%", 
-                                dialogTop: "25%", 
-                                titlebarButtons: [ShDialogToolbarButtons.close]
+                                dialogWidth: '50%', 
+                                dialogTop: '25%', 
+                                titlebarButtons: [ShDialogToolbarButtons.close],
+                                title: 'dialog',
                             };
         //
         if (ShTools.getStyle(dialogFrameObj, 'display')!='none')
-                            return;
+            return;
+
+        let bodyElement = document.body;
+        if (!bodyElement)
+            return;
         
+        let backgroundShadeDiv = document.createElement('div');
+        backgroundShadeDiv.className = 'shDialog-shade-div';
+                            
+        bodyElement.appendChild(backgroundShadeDiv);
     }
 
     static showMessage(title, message, exSettings){
