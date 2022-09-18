@@ -7,10 +7,7 @@ export class ShDialogTypes{
 
     constructor(enumValue){
         this.value = enumValue;
-    }
-
-    get value(){
-        return this.value; 
+        Object.freeze(this);
     }
 
     toString(){
@@ -23,9 +20,6 @@ export class ShDialogToolbarButtons{
 
     constructor(enumValue){
         this.value = enumValue;
-    }
-
-    get value(){
-        return this.value; 
+        Object.freeze(this);
     }
 }
