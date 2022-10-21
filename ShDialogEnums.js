@@ -22,4 +22,5 @@ export class ShDialogToolbarButtons{
         this.value = enumValue;
         Object.freeze(this);
     }
+
 }
