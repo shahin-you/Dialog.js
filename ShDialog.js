@@ -1,9 +1,21 @@
-import {ShTools} from './ShTools'
-import {ShDialogTypes} from './ShDialogEnums';
-import {ShDialogToolbarButtons} from './ShDialogEnums';
+import {ShTools} from './ShTools.js'
+import {ShDialogTypes, ShDialogToolbarButtons} from './ShDialogEnums.js';
 
-class ShDialog{
+export class ShDialog{
     #dialogID = ``;
+    #defaultSettings = { 
+        dialogDirection: 'ltr',
+        dialogType: ShDialogTypes.info, 
+        dialogWidth: '50%', 
+        dialogTop: '25%', 
+        titlebarButtons: [
+        {
+            buttonType:ShDialogToolbarButtons.close, 
+            clickHandler:()=>{this.closeDialog();},
+            cssClasses: ['sh-close-button-icon', 'sh-close-button-color'],
+        }],
+        title: 'dialog',    
+    };
 
     constructor(settings){
         let currentSettings = settings || {};
@@ -29,6 +41,7 @@ class ShDialog{
         let titleFrame = document.createElement('div');
         //titleFrame.classList.add(settings.dialogType.getCSS());
         let titlebarButtonsArea = document.createElement('div');
+        let titleTextArea = document.createElement('div');
         if (settings.titlebarButtons)
             settings.titlebarButtons.forEach(element => {
                 let buttonDiv = document.createElement('div');
@@ -36,26 +49,20 @@ class ShDialog{
                 buttonDiv.classList.add(element.cssClasses);
                 titleFrame.appendChild(buttonDiv);
             });
+        
+        if (settings.title){
+            let textSpan = document.createElement('span');
+            textSpan.textContent = settings.title;
+            titleTextArea.appendChild(textSpan);
+        } 
+        titleFrame.appendChild(titlebarButtonsArea);    
         return titleFrame;
     }
 
     showDialog(dialogBodyObj, exSettings){
         if (!ShTools.isDOMElement(dialogBodyObj))
             return;
-        let currentSettings = exSettings || 
-                            {
-                                dialogDirection: 'ltr',
-                                dialogType: ShDialogTypes.info, 
-                                dialogWidth: '50%', 
-                                dialogTop: '25%', 
-                                titlebarButtons: [
-                                    {
-                                        buttonType:ShDialogToolbarButtons.close, 
-                                        clickHandler:()=>{this.closeDialog();},
-                                        cssClasses: ['sh-close-button-icon', 'sh-close-button-color'],
-                                    }],
-                                title: 'dialog',
-                            };
+        let currentSettings = exSettings || this.#defaultSettings;
         //
         //if (ShTools.getStyle(dialogFrameObj, 'display')!='none')
         //    return;
@@ -75,8 +82,11 @@ class ShDialog{
         bodyElement.appendChild(dialogFrameObj);
     }
 
-    static showMessage(title, message, exSettings){
-        let currentSettings = exSettings || {dialogType:ShDialogTypes.info};
-
+    showMessage(title, message, exSettings){
+        let currentSettings = exSettings || this.#defaultSettings;
+        currentSettings.title=title;
+        let dialogFrame = document.createElement('div');
+        dialogFrame.textContent = message;
+        this.showDialog(dialogFrame, currentSettings);
     }
 }
